@@ -56,34 +56,16 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # freedom from tyranny
 TMOUT=0
 # where are the files
-REPO=/usr/local/share/pypilibs
-SCRIPTS=~/SCRIPTS
-DOWNLOADS=~/DUMP
+PROJECT=~/projects
+SCRIPTS=~/scripts
+DOWNLOADS=~/dump
 # grab the python version
-alias python='python3.9'  # forces calls to python to use this version
+alias python='python3.11'  # forces calls to python to use this version
 PY3VER=`python -c 'import sys; print(".".join(map(str, sys.version_info[:2])))'`
-# powerline home
-export POWERLINE_HOME=~/SCRIPTS/powerline/.venv
-
-### POWERLINE
-# if powerline is in a venv, make sure the venv was built with the python version set above
-# need to create a link in the venv else we get error
-if [ ! -d $POWERLINE_HOME/lib/python$PY3VER/site-packages/powerline/bindings/bash/../../../scripts ]; then
-  ln -s $POWERLINE_HOME/bin $POWERLINE_HOME/lib/python$PY3VER/site-packages/powerline/bindings/bash/../../../scripts
-fi
-
-# launch the daemon and setup bash
-if [ -f $POWERLINE_HOME/lib/python$PY3VER/site-packages/powerline/bindings/bash/powerline.sh ]; then
-  $POWERLINE_HOME/bin/powerline-daemon --quiet
-  POWERLINE_BASH_CONTINUATION=1
-  POWERLINE_BASH_SELECT=1
-  source $POWERLINE_HOME/lib/python$PY3VER/site-packages/powerline/bindings/bash/powerline.sh
-fi
 
 ### ALIAS FUNK
 alias cdd='cd '$DOWNLOADS
 alias cds='cd '$SCRIPTS
-alias cdp='cd /usr/local/share/pypilibs'
 alias sv='source .venv/bin/activate'
 alias bashrc='. ~/.bashrc'
 alias bashrcv='vi ~/.bashrc'
@@ -94,7 +76,7 @@ alias la='ls -l --group-directories-first'
 alias lf="ls -l | egrep -v '^d'"
 alias ld='ls -ld */'
 alias l='ls -Ca --group-directories-first'
-alias lsp='ls -a '$REPO' --group-directories-first'
+alias lsp='ls -a '$PROJECT' --group-directories-first'
 alias lss='ls -a '$SCRIPTS' --group-directories-first'
 alias lsd='ls -a '$DOWNLOADS' --group-directories-first'
 
@@ -122,17 +104,6 @@ alias tls='tmux ls'
 tat () {
     select sel in $(tmux ls -F '#{session_name}' ); do break; done
     tmux attach -t "$sel"
-}
-
-# ansible shorts
-apn () {
- ansible-playbook $1 -i ../netarch-inventory/inventory-nsx.yml
-}
-apc () {
- ansible-playbook $1 -i ../netarch-inventory/inventory-cocc.yml
-}
-apcv () {
- ansible-playbook -vvv $1 -i ../netarch-inventory/inventory-cocc.yml
 }
 
 # python stuff
@@ -208,3 +179,7 @@ fi
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
+. "$HOME/.atuin/bin/env"
+
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+eval "$(atuin init bash)"

@@ -15,7 +15,7 @@ backup () {
 
 restore () {
     # RESTORE FROM GIT
-    cp -R .config/colorls ~/.config
+    sudo apt-get install vim tmux zsh -y
     cp .oh-my-zsh/custom/*.zsh ~/.oh-my-zsh/custom/
     cp .bashrc ~
     cp .p10k.zsh ~
@@ -26,10 +26,8 @@ restore () {
 }
 
 dif () {
-    echo '>>> colorls'
-    diff -r ~/.config/colorls .config/colorls
-    echo '>>> ohmyzsh'
-    diff ~/.oh-my-zsh/custom/*.zsh .oh-my-zsh/custom/*.zsh
+    echo '>>> ohmyzsh jx-aliases'
+    diff ~/.oh-my-zsh/custom/jx-aliases.zsh .oh-my-zsh/custom/jx-aliases.zsh
     echo '>>> bashrc'
     diff ~/.bashrc .bashrc
     echo '>>> p10k'
