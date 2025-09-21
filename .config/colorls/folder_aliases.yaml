@@ -1,8 +1,0 @@
-bin: config
-sbin: config
-include: config
-.ssh: hidden
-.oh-my-zsh: hidden
-.pki: hidden
-.local: hidden
-.gnupg: hidden

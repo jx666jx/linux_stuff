@@ -2,46 +2,25 @@
 # freedom from tyranny
 TMOUT=0
 # where are the files
-REPO=/usr/local/share/pypilibs
-SCRIPTS=~/SCRIPTS
-DOWNLOADS=~/DUMP
-PYTHON=python3.9
+PROJECT=~/projects
+SCRIPTS=~/scripts
+DOWNLOADS=~/dump
+PYTHON=python3.11
 
-### COLORLS
-# grab the ruby version
-RUBVER=`ruby -e 'puts RUBY_VERSION' | cut -c1-3`
-# if colorls is installed configure aliases with it, else default to ls aliases
-if `gem search -i colorls` = true ; then
-  PATH=$PATH:~/.local/share/gem/ruby/$RUBVER.0/bin
-  source $(dirname $(gem which colorls))/tab_complete.sh
-  alias lt='colorls -lA --tree=2 --sd'
-  alias ll='colorls -la --sd'
-  alias llg='colorls -la --sd --gs'
-  alias la='colorls -l --sd'
-  alias ld='colorls -lAd --sd'
-  alias lf='colorls -lAf --sd'
-  alias l='colorls -Ca --sd'
-  alias lsp='colorls -a --sd '$REPO
-  alias lss='colorls -a --sd '$SCRIPTS
-  alias lsd='colorls -a --sd '$DOWNLOADS
-  if [ -f ~/.local/share/icons-in-terminal/icons_bash.sh ]; then
-    source ~/.local/share/icons-in-terminal/icons_bash.sh
-  fi
-else
-  alias ll='ls -la --group-directories-first'
-  alias la='ls -l --group-directories-first'
-  alias lf="ls -l | egrep -v '^d'"
-  alias ld='ls -ld */'
-  alias l='ls -Ca --group-directories-first'
-  alias lsp='ls -a '$REPO' --group-directories-first'
-  alias lss='ls -a '$SCRIPTS' --group-directories-first'
-  alias lsd='ls -a '$DOWNLOADS' --group-directories-first'
-fi
+# list aliases
+alias ll='ls -la --group-directories-first'
+alias la='ls -l --group-directories-first'
+alias lf="ls -l | egrep -v '^d'"
+alias ld='ls -ld */'
+alias l='ls -Ca --group-directories-first'
+alias lsp='ls -a '$PROJECT' --group-directories-first'
+alias lss='ls -a '$SCRIPTS' --group-directories-first'
+alias lsd='ls -a '$DOWNLOADS' --group-directories-first'
 
 ### ALIAS FUNK
 alias cdd='cd '$DOWNLOADS
 alias cds='cd '$SCRIPTS
-alias cdp='cd '$REPO
+alias cdp='cd '$PROJECT
 alias cdz='cd '$ZSH_CUSTOM
 alias sv='source .venv/bin/activate'
 alias zshrc='. ~/.zshrc'
@@ -96,13 +75,13 @@ logz () {
 
 # ansible shorts
 apn () {
- ansible-playbook $1 -i ../netarch-inventory/inventory-nsx.yml
+ ansible-playbook $1 -i ~/ansible-inventory/inventory-nsx.yml
 }
 apc () {
- ansible-playbook $1 -i ../netarch-inventory/inventory-cocc.yml
+ ansible-playbook $1 -i ~/ansible-inventory/inventory-cocc.yml
 }
 apcv () {
- ansible-playbook -vvv $1 -i ../netarch-inventory/inventory-cocc.yml
+ ansible-playbook -vvv $1 -i ~/ansible-inventory/inventory-cocc.yml
 }
 
 # git
@@ -121,7 +100,7 @@ cvenv () {
 }
 pipin () {
     pip install $*
-    #pip install  --no-index --find-links file://$REPO/ $*
+    #pip install  --no-index --find-links file://$PROJECT/ $*
 }
 pipup (){
     pip list --outdated --format=json | jq -r '.[] | "\(.name)==\(.latest_version)"' | xargs -n1 pip install -U
