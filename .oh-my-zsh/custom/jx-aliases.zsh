@@ -78,11 +78,15 @@ apn () {
  ansible-playbook $1 -i ~/ansible-inventory/inventory-nsx.yml
 }
 apc () {
- ansible-playbook $1 -i ~/ansible-inventory/inventory-core.yml
+ ansible-playbook $1 -i ~/ansible-inventory/inventory-cocc.yml
 }
 apcv () {
- ansible-playbook -vvv $1 -i ~/ansible-inventory/inventory-core.yml
+ ansible-playbook -vvv $1 -i ~/ansible-inventory/inventory-cocc.yml
 }
+
+# git
+# git push local to gitlab
+alias gitpn='git push --set-upstream git@git.cocci.com:\`whoami\`/$(git rev-parse --show-toplevel | xargs basename).git $(git rev-parse --abbrev-ref HEAD)'
 
 # python stuff
 cvenv () {
